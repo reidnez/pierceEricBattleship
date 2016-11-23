@@ -1,6 +1,10 @@
 $(document).ready(function() {
   makeViewBoard();
 
+  $("td").on("click",function() {
+    $(this).addClass("miss");
+  });
+
 });
 
 
