@@ -39,11 +39,36 @@ function placeShips() {
     var y = Math.floor(Math.random()*10);
 
     // Ship will be placed if and only if a ship has not been placed
-    if (board[x][y] != SHIP) {
+    if (mayPlace(x, y)) {
       board[x][y] = SHIP;
       counter++; // counter will not increment unless a ship is placed
     }
   }
+}
+
+// This function checks to see if we are allowed to place a ship in this location (i.e., if ship is not already present or isn't a cell over vertically, horizontally, or diagonally)
+function mayPlace(i, j) {
+  // Create variables that are less than or equal to i and/or j, but if they
+  // extend outside the matrix, set them to the min or max value possible
+  var x = i - 1;
+  if (x < 0) {
+    x = i;
+  }
+  var xx = i + 1;
+  if (xx > (rowCol - 1)) {
+    xx = i;
+  }
+  var y = j - 1;
+  if (y < 0) {
+    y = j;
+  }
+  var yy = j + 1;
+  if (yy > (rowCol - 1)) {
+    yy = j;
+  }
+
+  // Check if the values at these indices are equal to SHIP, and if they are, return false, if they are not, return true
+  return (board[i][j] != SHIP && board[xx][j] != SHIP && board[x][j] != SHIP && board[i][yy] != SHIP && board[i][y] != SHIP && board[xx][yy] != SHIP && board[xx][y] != SHIP && board[x][yy] != SHIP && board[x][y] != SHIP);
 }
 
 //This function finds an element in the matrix, and returns its value
