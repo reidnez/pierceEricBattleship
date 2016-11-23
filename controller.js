@@ -9,6 +9,9 @@ $(document).ready(function() {
     // by 1 and the text reflects that
     numTorpedoes++;
     $("#torpedoes").text("Number of torpedoes fired: " + numTorpedoes);
+
+    // Now we turn the cell off so we don't "waste" torpedoes
+    $(this).off("click");
   });
 
 });
