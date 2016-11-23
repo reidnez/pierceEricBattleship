@@ -8,6 +8,7 @@ $(document).ready(function() {
     //This checks if a ship is in cell, and changes color to red if so
     if(findOnBoard(parseInt($(this).attr("id"))) === SHIP) {
       $(this).addClass("hit");
+      //adds to hit counter and checks if we've won
       if (addHitAndCheckWin()) {
         $("td").off("click");
         $("#win_lose").text("YOU WIN!");
@@ -18,8 +19,12 @@ $(document).ready(function() {
     }
 
     // When a user clicks the cell, the number of torpedoes also goes up
-    // by 1 and the text reflects that
-    numTorpedoes++;
+    // by 1, we check if we've lost
+    if (addTorpedoAndCheckLose() && !addHitAndCheckWin()) {
+      $("td").off("click");
+      $("#win_lose").text("You lose, LOSER!");
+    }
+    //show number of torpedoes used
     $("#torpedoes").text("Number of torpedoes fired: " + numTorpedoes);
 
     // Now we turn the cell off so we don't "waste" torpedoes

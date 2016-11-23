@@ -2,6 +2,7 @@ var SHIP = 1; // Global constant variable
 
 var rowCol = 10; // The number of rows/columns
 var numTorpedoes = 0; // The number of torpedoes that have been fired
+var maxTorpedoes = 25; //The Maximum torpedoes before you lose
 var numShips = 5; // The number of ships in the game
 var numHits = 0;
 var maxHits = 5;
@@ -60,6 +61,13 @@ function addHitAndCheckWin() {
   console.log(numHits);
   return numHits >= maxHits;
 }
+
+//Increases number of torpedoes by 1 and checks if the user lost.
+function addTorpedoAndCheckLose() {
+  numTorpedoes++;
+  return numTorpedoes >= maxTorpedoes;
+}
+
 
 function showBoard() {
   console.log("   " + 0 + " " + 1 + " " + 2 + " " + 3 + " " + 4 + " " + 5 + " " + 6 + " " + 7 + " " + 8 + " " + 9);
