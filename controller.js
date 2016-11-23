@@ -7,10 +7,13 @@ $(document).ready(function() {
   $("td").on("click",function() {
     //This checks if a ship is in cell, and changes color to red if so
     if(findOnBoard(parseInt($(this).attr("id"))) === SHIP) {
-      console.log("hit");
       $(this).addClass("hit");
+      if (addHitAndCheckWin()) {
+        $("td").off("click");
+        $("#win_lose").text("YOU WIN!");
+      }
     } else {
-      //This changes cell to gray 
+      //This changes cell to gray
       $(this).addClass("miss");
     }
 

@@ -3,6 +3,8 @@ var SHIP = 1; // Global constant variable
 var rowCol = 10; // The number of rows/columns
 var numTorpedoes = 0; // The number of torpedoes that have been fired
 var numShips = 5; // The number of ships in the game
+var numHits = 0;
+var maxHits = 5;
 
 // The backend game board (will be a 10x10 matrix)
 var board = [ [],
@@ -49,4 +51,19 @@ function findOnBoard(num) {
   var row = Math.floor(num / 10);
   var col = num % 10;
   return board[row][col];
+}
+
+// Increments the number of hits and checks if user has won (i.e., the number
+// of hits is equal to maxHits)
+function addHitAndCheckWin() {
+  numHits++;
+  console.log(numHits);
+  return numHits >= maxHits;
+}
+
+function showBoard() {
+  console.log("   " + 0 + " " + 1 + " " + 2 + " " + 3 + " " + 4 + " " + 5 + " " + 6 + " " + 7 + " " + 8 + " " + 9);
+  for (var i = 0; i < rowCol; i++) {
+    console.log(i + ": " + board[i][0] + " " + board[i][1] + " " + board[i][2] + " " + board[i][3] + " " + board[i][4] + " " + board[i][5] + " " + board[i][6] + " " + board[i][7] + " " + board[i][8] + " " + board[i][9]);
+  }
 }
