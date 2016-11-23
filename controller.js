@@ -23,6 +23,7 @@ $(document).ready(function() {
     if (addTorpedoAndCheckLose() && !addHitAndCheckWin()) {
       $("td").off("click");
       $("#win_lose").text("You lose, LOSER!");
+      showShips(); // turn all cells with ships in them red
     }
     //show number of torpedoes used
     $("#torpedoes").text("Number of torpedoes fired: " + numTorpedoes);
@@ -32,6 +33,21 @@ $(document).ready(function() {
   });
 
 });
+
+// Loops through each cell in view and checks its value on the model board;
+// if the element on the model board has a ship, we turn the cell red on the
+// view
+function showShips() {
+  for (var i = 0; i < 10; i++) {
+    for(var j = 0; j < 10; j++) {
+      var idStr = "#" + i + j;
+      if(findOnBoard(parseInt($(idStr).attr("id"))) === SHIP) {
+        $(idStr).addClass("hit");
+      }
+    }
+  }
+}
+
 
 
 // This function uses 2 for loops to create the board on the view.
