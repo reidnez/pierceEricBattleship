@@ -42,3 +42,11 @@ function placeShips() {
     }
   }
 }
+
+//This function finds an element in the matrix, and returns its value
+//controller uses this to access the array in the model
+function findOnBoard(num) {
+  var row = Math.floor(num / 10);
+  var col = num % 10;
+  return board[row][col];
+}

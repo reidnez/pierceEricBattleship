@@ -1,9 +1,18 @@
 $(document).ready(function() {
   makeViewBoard();
+  makeModelBoard();
+  placeShips();
 
+  //This function operates when a cell is clicked
   $("td").on("click",function() {
-    // When a user clicks a cell, it turns gray
-    $(this).addClass("miss");
+    //This checks if a ship is in cell, and changes color to red if so
+    if(findOnBoard(parseInt($(this).attr("id"))) === SHIP) {
+      console.log("hit");
+      $(this).addClass("hit");
+    } else {
+      //This changes cell to gray 
+      $(this).addClass("miss");
+    }
 
     // When a user clicks the cell, the number of torpedoes also goes up
     // by 1 and the text reflects that
@@ -27,7 +36,7 @@ function makeViewBoard() {
     $("#view_board").append("<tr id=" + rowStr + "></tr>");
     //This for loops creates the cells within the rows
     for (var j = 0; j < rowCol; j++) {
-      var colStr = "cell_" + i + j; //creates custom id for each td
+      var colStr = "" + i + j; //creates custom id for each td
 
       //appends text to create a td in the html file
       $("#"+rowStr).append("<td id=" + colStr + ">" + i + j + "</td>");
@@ -39,4 +48,9 @@ function makeViewBoard() {
 
   // Shows the current number of torpedoes
   $("#torpedoes").text("Number of torpedoes fired: " + numTorpedoes);
+}
+
+// TODO handle changing color based on hit/miss
+function changeColor(str) {
+  $(str)
 }
