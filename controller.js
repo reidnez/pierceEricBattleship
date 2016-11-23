@@ -26,7 +26,7 @@ $(document).ready(function() {
       showShips(); // turn all cells with ships in them red
     }
     //show number of torpedoes used
-    $("#torpedoes").text("Number of torpedoes fired: " + numTorpedoes);
+    $("#torpedoes").text("Torpedoes remaining: " + (maxTorpedoes - numTorpedoes));
 
     // Now we turn the cell off so we don't "waste" torpedoes
     $(this).off("click");
@@ -71,7 +71,7 @@ function makeViewBoard() {
   }
 
   // Shows the current number of torpedoes
-  $("#torpedoes").text("Number of torpedoes fired: " + numTorpedoes);
+  $("#torpedoes").text("Torpedoes remaining: " + (maxTorpedoes - numTorpedoes));
 }
 
 // TODO handle changing color based on hit/miss
