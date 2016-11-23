@@ -2,7 +2,13 @@ $(document).ready(function() {
   makeViewBoard();
 
   $("td").on("click",function() {
+    // When a user clicks a cell, it turns gray
     $(this).addClass("miss");
+
+    // When a user clicks the cell, the number of torpedoes also goes up
+    // by 1 and the text reflects that
+    numTorpedoes++;
+    $("#torpedoes").text("Number of torpedoes fired: " + numTorpedoes);
   });
 
 });
@@ -27,4 +33,7 @@ function makeViewBoard() {
     //appends text to close tr
     $("#view_board").append("</tr>");
   }
+
+  // Shows the current number of torpedoes
+  $("#torpedoes").text("Number of torpedoes fired: " + numTorpedoes);
 }
