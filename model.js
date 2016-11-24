@@ -63,7 +63,37 @@ function placeFiveBlockShip() {
   }
 }
 
+// Places a four block ship on the model board
+function placeFourBlockShip() {
+  var end = false;
+  while (!end) {
+    // This variable decides whether ship is horizontally or vertically placed
+    var d = Math.floor(Math.random() * 2);
 
+    // Creates random integers for index of ship
+    var x = Math.floor(Math.random() * rowCol);
+    var y = Math.floor(Math.random() * rowCol);
+
+    // if d equals zero, ship is vertical, otherwise it's horizontal
+    if (d === 0) {
+      if ((y + 3 <= 9) && mayPlace(x, y) && mayPlace(x, y + 1) && mayPlace(x, y + 2) && mayPlace(x, y + 3)) {
+        board[x][y] = SHIP;
+        board[x][y + 1] = SHIP;
+        board[x][y + 2] = SHIP;
+        board[x][y + 3] = SHIP;
+        end = true;
+      }
+    } else {
+      if ((x + 3 <= 9) && mayPlace(x, y) && mayPlace(x + 1, y) && mayPlace(x + 2, y) && mayPlace(x + 3, y)) {
+        board[x][y] = SHIP;
+        board[x + 1][y] = SHIP;
+        board[x + 2][y] = SHIP;
+        board[x + 3][y] = SHIP;
+        end = true;
+      }
+    }
+  }
+}
 
 // Places a one block submarine on the board
 function placeOneBlockShip() {

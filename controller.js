@@ -5,6 +5,9 @@ $(document).ready(function() {
   makeModelBoard();
   // Put a five block ship on the model board
   placeFiveBlockShip();
+  // Put two four block ships on model board
+  placeFourBlockShip();
+  placeFourBlockShip();
 
   //This function operates when a cell is clicked
   $("td").on("click",function() {
