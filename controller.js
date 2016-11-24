@@ -1,7 +1,10 @@
 $(document).ready(function() {
+  // Make the view board
   makeViewBoard();
+  // Make the model board
   makeModelBoard();
-  placeShips();
+  // Put a five block ship on the model board
+  placeFiveBlockShip();
 
   //This function operates when a cell is clicked
   $("td").on("click",function() {
