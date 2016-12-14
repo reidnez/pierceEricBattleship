@@ -102,11 +102,7 @@ function mayPlace(x, y) {
 	// At least one adjacent cell is occupied
 	// return (neighboringCells(x, y).filter(function(cell){return cell === SHIP}).length == 0);	
 	var neighbors = neighboringCells(x, y);
-	for (var i = 0; i < neighbors.length; i++) {
-		if (neighbors[i] === SHIP) {
-			return false;
-		}
-	}
+	return (neighbors.reduce(function(sum, value){return sum + value;}) === 0);
 	
 	return true;
 }
