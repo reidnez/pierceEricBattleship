@@ -4,7 +4,9 @@ $(document).ready(function() {
   // Make the model board
   makeModelBoard();
   // Put a five block ship on the model board
-  placeFiveBlockShip();
+  placeMultiBlockShip(5);
+  placeMultiBlockShip(5);
+
   // Put two four block ships on model board
   placeFourBlockShip();
   placeFourBlockShip();

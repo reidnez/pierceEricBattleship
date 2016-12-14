@@ -29,6 +29,38 @@ function makeModelBoard() {
   }
 }
 
+// attempting to make a scalable function to replace the individual ship making functions
+function placeMultiBlockShip(size){
+  var end = false;
+  while (!end) {
+    var d = Math.floor(Math.random() * 2);
+    var x = Math.floor(Math.random() * rowCol);
+    var y = Math.floor(Math.random() * rowCol);
+    var z = 0;
+    if (d === 0){
+      if (y + size <= 10 && mayPlace(x, y + size)) {
+        while (z < size){
+          board[x][y + z] = SHIP;
+          end = true;
+          if (board[x][y + z] == SHIP){
+            z++
+          }
+        }
+      }
+    } else {
+      if (x + size <= 10 && mayPlace(x + size, y)) {
+        while (z < size){
+          board[x + z][y] = SHIP;
+          end = true;
+          if (board [x + z][y] == SHIP){
+            z++
+          }
+        }
+      }
+    }
+  }
+}
+
 // Places a five block ship on the model board
 function placeFiveBlockShip() {
   var end = false;
