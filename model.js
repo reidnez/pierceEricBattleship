@@ -29,139 +29,133 @@ function makeModelBoard() {
   }
 }
 
-// attempting to make a scalable function to replace the individual ship making functions
-function placeMultiBlockShip(size){
-  var end = false;
-  while (!end) {
-    var d = Math.floor(Math.random() * 2);
-    var x = Math.floor(Math.random() * rowCol);
-    var y = Math.floor(Math.random() * rowCol);
-    var z = 0;
-    if (d === 0){
-      if (y + size <= 10 && mayPlace(x, y + size)) {
-        while (z < size){
-          board[x][y + z] = SHIP;
-          end = true;
-          if (board[x][y + z] == SHIP){
-            z++
-          }
-        }
-      }
-    } else {
-      if (x + size <= 10 && mayPlace(x + size, y)) {
-        while (z < size){
-          board[x + z][y] = SHIP;
-          end = true;
-          if (board [x + z][y] == SHIP){
-            z++
-          }
-        }
-      }
-    }
-  }
+function placeShipOfLength(length) {
+  var attemptsLeft = 100; // Make sure we don't loop infinitely
+  
+  while (attemptsLeft > 0) {
+  	var placeHorizontal = (Math.floor(Math.random() * 2) !== 0);
+	
+		var x = Math.floor(Math.random() * rowCol);
+  	var y = Math.floor(Math.random() * rowCol);
+  	
+  	if (mayPlaceShip(x, y, length, placeHorizontal)) {
+  		var stop = (placeHorizontal ? x : y) + length;
+  		
+  		while (true) {
+  			board[x][y] = SHIP;
+  			// Uncomment to step through and see ships being added in real time.
+   			// showShips();
+  		
+  			if (placeHorizontal) {
+  				x++;
+  				if (x == stop) break;
+  			}
+  			else {
+  				y++;
+  				if (y == stop) break;
+  			}
+  		}
+  		
+  		return;
+  	}
+  	
+  	attemptsLeft--;
+  }  
 }
 
-// Places a five block ship on the model board
-function placeFiveBlockShip() {
-  var end = false;
-  while (!end) {
-    // This variable decides whether ship is horizontally or vertically placed
-    var d = Math.floor(Math.random() * 2);
-
-    // Creates random integers for index of ship
-    var x = Math.floor(Math.random() * rowCol);
-    var y = Math.floor(Math.random() * rowCol);
-
-    // if d equals zero, ship is vertical, otherwise it's horizontal
-    if (d === 0) {
-      if ((y + 4 <= 9) && mayPlace(x, y) && mayPlace(x, y + 1) && mayPlace(x, y + 2) && mayPlace(x, y + 3) && mayPlace(x, y + 4)) {
-        board[x][y] = SHIP;
-        board[x][y + 1] = SHIP;
-        board[x][y + 2] = SHIP;
-        board[x][y + 3] = SHIP;
-        board[x][y + 4] = SHIP;
-        end = true;
-      }
-    } else {
-      if ((x + 4 <= 9) && mayPlace(x, y) && mayPlace(x + 1, y) && mayPlace(x + 2, y) && mayPlace(x + 3, y) && mayPlace(x + 4, y)) {
-        board[x][y] = SHIP;
-        board[x + 1][y] = SHIP;
-        board[x + 2][y] = SHIP;
-        board[x + 3][y] = SHIP;
-        board[x + 4][y] = SHIP;
-        end = true;
-      }
-    }
-  }
+function mayPlaceShip(x, y, length, horizontal) {
+	var stop = (horizontal ? x : y) + length;
+	
+	while (true) {
+		if (!mayPlace(x, y)) {
+			return false; // If we find an invalid coordinate, we're done.
+		}
+		
+		if (horizontal) {
+			x++;
+			if (x === stop) break;
+		}
+		else { 
+			y++;
+			if (y === stop) break;
+		}
+	}
+	
+	return true;
 }
 
-// Places a four block ship on the model board
-function placeFourBlockShip() {
-  var end = false;
-  while (!end) {
-    // This variable decides whether ship is horizontally or vertically placed
-    var d = Math.floor(Math.random() * 2);
-
-    // Creates random integers for index of ship
-    var x = Math.floor(Math.random() * rowCol);
-    var y = Math.floor(Math.random() * rowCol);
-
-    // if d equals zero, ship is vertical, otherwise it's horizontal
-    if (d === 0) {
-      if ((y + 3 <= 9) && mayPlace(x, y) && mayPlace(x, y + 1) && mayPlace(x, y + 2) && mayPlace(x, y + 3)) {
-        board[x][y] = SHIP;
-        board[x][y + 1] = SHIP;
-        board[x][y + 2] = SHIP;
-        board[x][y + 3] = SHIP;
-        end = true;
-      }
-    } else {
-      if ((x + 3 <= 9) && mayPlace(x, y) && mayPlace(x + 1, y) && mayPlace(x + 2, y) && mayPlace(x + 3, y)) {
-        board[x][y] = SHIP;
-        board[x + 1][y] = SHIP;
-        board[x + 2][y] = SHIP;
-        board[x + 3][y] = SHIP;
-        end = true;
-      }
-    }
-  }
+// This function checks to see if we are allowed to place part of a ship 
+// at the cell located at (x, y). It returns false if: (a) the given coordinates
+// are out-of-bounds, (b) part of an existing ship already spans the cell, or (c)
+// part of an existing ship spans an adjacent cell (including those diagonally-adjacent).
+function mayPlace(x, y) {
+	// Coordinates are out-of-bounds	
+	if (!coordinatesAreInBounds(x, y)) {
+		return false;
+	}
+	
+	// Cell already occupied
+	if (board[x][y] === SHIP) {
+		return false;
+	} 
+	
+	// At least one adjacent cell is occupied
+	// return (neighboringCells(x, y).filter(function(cell){return cell === SHIP}).length == 0);	
+	var neighbors = neighboringCells(x, y);
+	for (var i = 0; i < neighbors.length; i++) {
+		if (neighbors[i] === SHIP) {
+			return false;
+		}
+	}
+	
+	return true;
 }
 
-// Places a one block submarine on the board
-function placeOneBlockShip() {
-  // Creates random integers for index of ship
-  var x = Math.floor(Math.random() * rowCol);
-  var y = Math.floor(Math.random() * rowCol);
-
-  // Ship will be placed if and only if a ship has not been placed
-  if (mayPlace(x, y)) {
-    board[x][y] = SHIP;
-  }
+function neighboringCells(x, y) {
+	var neighbors = [];
+	
+	var onLeftEdge = (x === 0);
+	var onRightEdge = (x === (board.length - 1));
+	var onTopEdge = (y === 0);
+	var onBottomEdge = (y === (board[x].length - 1));
+		
+		// Row above
+	if (!onTopEdge) {
+		// Top-left
+		if (!onLeftEdge) neighbors.push(board[x - 1][y - 1]);
+		
+		// Top
+		neighbors.push(board[x][y - 1]);
+		
+		// Top-right
+		if (!onRightEdge) neighbors.push(board[x + 1][y - 1]);
+	}
+	
+	// Left-adjacent
+	if (!onLeftEdge) neighbors.push(board[x - 1][y]);
+	
+	// Right-adjacent
+	if (!onRightEdge) neighbors.push(board[x + 1][y]);
+	
+	// Row below
+	if (!onBottomEdge) {
+		// Bottom-left
+		if (!onLeftEdge) neighbors.push(board[x - 1][y + 1]);
+	
+		// Bottom
+		neighbors.push(board[x][y + 1]);
+		
+		// Bottom-right
+		if (!onRightEdge) neighbors.push(board[x + 1][y + 1]);
+	}
+				
+	return neighbors;
 }
 
-// This function checks to see if we are allowed to place a ship in this location (i.e., if ship is not already present or isn't a cell over vertically, horizontally, or diagonally)
-function mayPlace(i, j) {
-  // Create variables that are less than or equal to i and/or j, but if they
-  // extend outside the matrix, set them to the min or max value possible
-  var x = i - 1;
-  if (x < 0) {
-    x = i;
-  }
-  var xx = i + 1;
-  if (xx > (rowCol - 1)) {
-    xx = i;
-  }
-  var y = j - 1;
-  if (y < 0) {
-    y = j;
-  }
-  var yy = j + 1;
-  if (yy > (rowCol - 1)) {
-    yy = j;
-  }
-
-  // Check if the values at these indices are equal to SHIP, and if they are, return false, if they are not, return true
-  return (board[i][j] != SHIP && board[xx][j] != SHIP && board[x][j] != SHIP && board[i][yy] != SHIP && board[i][y] != SHIP && board[xx][yy] != SHIP && board[xx][y] != SHIP && board[x][yy] != SHIP && board[x][y] != SHIP);
+function coordinatesAreInBounds(x, y) {
+	if (x < 0 || y < 0) return false;
+	
+	return (x < board.length && y < board[x].length);	
 }
 
 //This function finds an element in the matrix, and returns its value

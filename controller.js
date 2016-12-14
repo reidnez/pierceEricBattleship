@@ -3,14 +3,12 @@ $(document).ready(function() {
   makeViewBoard();
   // Make the model board
   makeModelBoard();
-  // Put a five block ship on the model board
-  placeMultiBlockShip(5);
-  placeMultiBlockShip(5);
 
-  // Put two four block ships on model board
-  placeFourBlockShip();
-  placeFourBlockShip();
-
+	placeShipOfLength(1);
+	placeShipOfLength(2);
+	placeShipOfLength(4);
+	placeShipOfLength(5);  
+    
   //This function operates when a cell is clicked
   $("td").on("click",function() {
     //This checks if a ship is in cell, and changes color to red if so
