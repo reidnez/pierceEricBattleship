@@ -102,9 +102,7 @@ function mayPlace(x, y) {
 	// At least one adjacent cell is occupied
 	// return (neighboringCells(x, y).filter(function(cell){return cell === SHIP}).length == 0);	
 	var neighbors = neighboringCells(x, y);
-	return (neighbors.reduce(function(sum, value){return sum + value;}) === 0);
-	
-	return true;
+	return (neighbors.reduce(function(sum, value){return sum + value;}) === 0);	
 }
 
 function neighboringCells(x, y) {
